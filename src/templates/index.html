@@ -55,14 +55,43 @@
         input[type="submit"]:hover {
             background-color: #0056b3;
         }
+
+        .past-searches {
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #f0f0f0;
+            border-radius: 8px;
+            display: inline-block;
+        }
+
+        .past-searches ul{
+            list-style: none;
+            padding:0;
+        }
+
+        .past-searches li{
+            padding: 5px;
+            cursor: pointer;
+        }
+
+        .past-searches li:hover{
+            text-decoration: underline;
+        }
+
     </style>
+    <script>
+        function searchCity(city) {
+            document.getElementById('city-input').value = city;
+            document.getElementById('weather-form').submit();
+        }
+    </script>
 </head>
 <body>
 
     <h1>Weather Application</h1>
 
-    <form action="/" method="POST">
-        <input type="text" name="city" placeholder="Enter city name" required>
+    <form id="weather-form" action="/" method="POST">
+        <input type="text" id = "city-input" name="city" placeholder="Enter area name" required>
         <input type="submit" value="Get Weather">
     </form>
 
@@ -74,9 +103,22 @@
             <p>Humidity: {{ weather.humidity }}%</p>
             <p>Wind Speed: {{ weather.wind_speed }} m/s</p>
         </div>
+
+
     {% elif error %}
         <div class="weather-info error">
             <p>{{ error }}</p>
+        </div>
+    {% endif %}
+
+    {% if past_searches %}
+        <div class = "past-searches">
+            <h3>Past Searches</h3>
+            <ul>
+                {% for city in past_searches %}
+                    <li onclick ="searchCity('{{city}}')">{{city}}</li>
+                {% endfor %}
+            </ul>
         </div>
     {% endif %}
 
